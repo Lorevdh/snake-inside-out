@@ -1,0 +1,18 @@
+/* 
+  Snake Inside-Out — Styling
+  Sets up dark theme and canvas visuals.
+  Feel free to remix colors, fonts, or layout.
+*/
+body {
+  font-family: 'Courier New', monospace;
+  background-color: #111;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+
+canvas {
+  background-color: #222;
+  border: 2px solid #fff;
+}
