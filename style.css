@@ -77,6 +77,10 @@ h1 {
     linear-gradient(#000 0 0) padding-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
+
+  mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
   mask-composite: exclude;
 
   border: 6px solid transparent; /* defines thickness */
@@ -116,6 +120,10 @@ h1 {
     linear-gradient(#000 0 0) padding-box,
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
+
+  mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
   mask-composite: exclude;
 
   border: 3px solid transparent;
