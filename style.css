@@ -57,6 +57,22 @@ h1 {
   font-size: 18px;
 }
 
+/* Difficulty selector */
+#difficulty {
+  padding: 6px 10px;
+  margin-bottom: 12px;
+  background: #0b0b0b;
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+#difficulty:hover {
+  border-color: #888;
+}
+
 /* === Rainbow "snake" border around the canvas === */
 .canvasWrapper::before {
   content: "";

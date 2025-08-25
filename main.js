@@ -27,6 +27,15 @@ const overlayMessage = document.getElementById('overlayMessage');
 const overlayScore = document.getElementById('overlayScore');
 const overlayBtn = document.getElementById('overlayBtn');
 
+// 🎚 Difficulty settings (harder = longer + faster)
+const difficulties = {
+  easy:   { speed: 150, startLength: 20 }, // short and slow
+  normal: { speed: 120, startLength: 30 }, // inbetween
+  hard:   { speed: 75, startLength: 50 }  // long & fast
+};
+
+let currentDifficulty = difficulties.normal; // default
+
 // 🎮 Controls — Arrow keys or WASD
 document.addEventListener('keydown', (e) => {
   if ((e.key === 'ArrowUp' || e.key === 'w') && direction.y !== 1) direction = { x: 0, y: -1 };
@@ -37,15 +46,17 @@ document.addEventListener('keydown', (e) => {
 
 // ▶ Overlay button starts or restarts the game
 overlayBtn.addEventListener('click', () => {
+  const selected = document.getElementById('difficulty').value;
+  currentDifficulty = difficulties[selected];
   overlay.style.display = 'none'; // hide overlay
   startGame(); // reset and start
 });
 
 // 🚀 Start the game
 function startGame() {
-  // Create a snake of length 20 in the middle
+  // Create a snake of difficulty-dependent length
   snake = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < currentDifficulty.startLength; i++) {
     snake.push({ x: 10 + i, y: 10 }); // horizontal snake
   }
 
@@ -70,7 +81,7 @@ function gameLoop() {
   draw();   // draw everything
 
   if (gameRunning) {
-    setTimeout(gameLoop, 150); // loop again after 150ms
+    setTimeout(gameLoop, currentDifficulty.speed); // difficulty-based speed
   }
 }
 
