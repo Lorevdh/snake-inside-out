@@ -32,9 +32,9 @@ document.getElementById('restartBtn').addEventListener('click', startGame);
 
 // 🚀 Start the game
 function startGame() {
-  // Create a snake of length 10 in the middle
+  // Create a snake of length 20 in the middle
   snake = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     snake.push({ x: 10 + i, y: 10 }); // horizontal snake
   }
 
