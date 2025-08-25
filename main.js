@@ -2,6 +2,7 @@
 // Remix Jam — "Flip the Script"
 // The snake starts long and SHRINKS when eating food.
 // Survive as long as you can. Collisions end the game.
+// Win condition: shrink away completely!
 // ---
 // Fully commented so others can remix & learn from it.
 
@@ -21,7 +22,7 @@ let gameRunning = false;
 let score = 0;
 let startTime = 0;
 
-// 🖼 Overlay elements (for Start + Game Over screens)
+// 🖼 Overlay elements (for Start + Game Over / Win screens)
 const overlay = document.getElementById('overlay');
 const overlayMessage = document.getElementById('overlayMessage');
 const overlayScore = document.getElementById('overlayScore');
@@ -29,9 +30,9 @@ const overlayBtn = document.getElementById('overlayBtn');
 
 // 🎚 Difficulty settings (harder = longer + faster)
 const difficulties = {
-  easy:   { speed: 150, startLength: 20 }, // short and slow
-  normal: { speed: 120, startLength: 30 }, // inbetween
-  hard:   { speed: 75, startLength: 50 }  // long & fast
+  easy:   { speed: 150, startLength: 20 }, // short & slow
+  normal: { speed: 120, startLength: 30 }, // balanced
+  hard:   { speed: 75,  startLength: 50 }  // long & fast
 };
 
 let currentDifficulty = difficulties.normal; // default
@@ -107,9 +108,9 @@ function update() {
   if (head.x === food.x && head.y === food.y) {
     if (snake.length > 2) {
       snake.pop();
-      snake.pop(); // remove extra segment → shrinking effect
+      snake.pop(); // remove extra segments → shrinking effect
     } else {
-      return gameOver(); // snake too small = death
+      return winGame(); // snake too small = win
     }
     food = spawnFood();
   } else {
@@ -117,9 +118,9 @@ function update() {
     snake.pop();
   }
 
-  // 🧨 Snake disappeared completely
+  // 🧨 Snake disappeared completely → Win!
   if (snake.length <= 0) {
-    return gameOver();
+    return winGame();
   }
 
   // ⏱ Score = seconds survived
@@ -167,11 +168,20 @@ function spawnFood() {
 function gameOver() {
   gameRunning = false;
 
-  // Update overlay message
   overlayMessage.textContent = "Game Over!";
   overlayScore.textContent = `You survived ${score} seconds`;
   overlayBtn.textContent = "🔄 Restart";
 
-  // Show overlay (now centered over canvas)
+  overlay.style.display = "flex";
+}
+
+// 🏆 Win the game
+function winGame() {
+  gameRunning = false;
+
+  overlayMessage.textContent = "You Win! 🎉";
+  overlayScore.textContent = `You survived ${score} seconds and shrank away!`;
+  overlayBtn.textContent = "🔄 Play Again";
+
   overlay.style.display = "flex";
 }

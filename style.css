@@ -57,6 +57,14 @@ h1 {
   font-size: 18px;
 }
 
+/* Instructions text */
+.instructions {
+  font-size: 14px;
+  color: #ccc;
+  margin: 10px 0 15px;
+  line-height: 1.4;
+}
+
 /* Difficulty selector */
 #difficulty {
   padding: 6px 10px;
