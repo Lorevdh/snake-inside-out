@@ -7,17 +7,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snacke Inside-out</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Inside-Out</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Snake Inside-Out</h1>
-    <canvas id="gameCanvas" width="400" height="400"></canvas>
-    <br>
-    <button id="restartBtn">🔄 Restart</button>
+  <h1>Snake Inside-Out</h1>
 
-    <script src="main.js"></script>
+  <!-- Canvas container (so overlay can sit on top of canvas only) -->
+  <div class="canvasWrapper">
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <!-- Overlay is now INSIDE the wrapper -->
+    <div id="overlay">
+      <div id="overlayContent">
+        <h2 id="overlayMessage">Snake Inside-Out</h2>
+        <p id="overlayScore"></p>
+        <button id="overlayBtn">▶ Start</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
 </body>
 </html>

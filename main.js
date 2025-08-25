@@ -2,14 +2,16 @@
 // Remix Jam — "Flip the Script"
 // The snake starts long and SHRINKS when eating food.
 // Survive as long as you can. Collisions end the game.
+// ---
+// Fully commented so others can remix & learn from it.
 
 // 🎨 Canvas setup
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 // 📐 Grid settings
-const gridSize = 20;
-const tileCount = canvas.width / gridSize;
+const gridSize = 20; // size of each square
+const tileCount = canvas.width / gridSize; // number of squares per row/column
 
 // 🐍 Snake state
 let snake;
@@ -19,6 +21,12 @@ let gameRunning = false;
 let score = 0;
 let startTime = 0;
 
+// 🖼 Overlay elements (for Start + Game Over screens)
+const overlay = document.getElementById('overlay');
+const overlayMessage = document.getElementById('overlayMessage');
+const overlayScore = document.getElementById('overlayScore');
+const overlayBtn = document.getElementById('overlayBtn');
+
 // 🎮 Controls — Arrow keys or WASD
 document.addEventListener('keydown', (e) => {
   if ((e.key === 'ArrowUp' || e.key === 'w') && direction.y !== 1) direction = { x: 0, y: -1 };
@@ -27,8 +35,11 @@ document.addEventListener('keydown', (e) => {
   if ((e.key === 'ArrowRight' || e.key === 'd') && direction.x !== -1) direction = { x: 1, y: 0 };
 });
 
-// 🔄 Restart button
-document.getElementById('restartBtn').addEventListener('click', startGame);
+// ▶ Overlay button starts or restarts the game
+overlayBtn.addEventListener('click', () => {
+  overlay.style.display = 'none'; // hide overlay
+  startGame(); // reset and start
+});
 
 // 🚀 Start the game
 function startGame() {
@@ -38,10 +49,13 @@ function startGame() {
     snake.push({ x: 10 + i, y: 10 }); // horizontal snake
   }
 
-  direction = { x: -1, y: 0 }; // moving left initially
-  food = spawnFood();
-  gameRunning = true;
+  // Initial movement direction
+  direction = { x: -1, y: 0 };
 
+  // Spawn first piece of food
+  food = spawnFood();
+
+  gameRunning = true;
   score = 0;
   startTime = Date.now();
 
@@ -52,16 +66,17 @@ function startGame() {
 function gameLoop() {
   if (!gameRunning) return;
 
-  update();
-  draw();
+  update(); // update game state
+  draw();   // draw everything
 
   if (gameRunning) {
-    setTimeout(gameLoop, 150);
+    setTimeout(gameLoop, 150); // loop again after 150ms
   }
 }
 
-// 🧩 Update logic
+// 🧩 Update game logic
 function update() {
+  // New head position
   const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
 
   // 🚧 Wall collision
@@ -74,21 +89,20 @@ function update() {
     return gameOver();
   }
 
-  // Add new head to the snake
+  // Add new head
   snake.unshift(head);
 
-  // 🍎 Food eaten
+  // 🍎 Food eaten → snake shrinks
   if (head.x === food.x && head.y === food.y) {
-    // Shrink instead of grow
     if (snake.length > 2) {
       snake.pop();
-      snake.pop(); // remove extra segment
+      snake.pop(); // remove extra segment → shrinking effect
     } else {
-      return gameOver();
+      return gameOver(); // snake too small = death
     }
     food = spawnFood();
   } else {
-    // Normal movement — remove last segment
+    // Normal movement → remove last segment
     snake.pop();
   }
 
@@ -97,7 +111,7 @@ function update() {
     return gameOver();
   }
 
-  // ⏱ Update score (seconds survived)
+  // ⏱ Score = seconds survived
   score = Math.floor((Date.now() - startTime) / 1000);
 }
 
@@ -117,13 +131,13 @@ function draw() {
   ctx.fillStyle = '#f00';
   ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
 
-  // Score
+  // Score HUD
   ctx.fillStyle = '#fff';
   ctx.font = '16px Courier New';
   ctx.fillText(`Time Survived: ${score}s`, 10, 20);
 }
 
-// 🎲 Random food spawn
+// 🎲 Spawn food at random location
 function spawnFood() {
   let newFood;
   while (true) {
@@ -141,5 +155,12 @@ function spawnFood() {
 // ☠️ Game over
 function gameOver() {
   gameRunning = false;
-  alert(`Game Over! You survived ${score} seconds.\nPress Restart to try again.`);
+
+  // Update overlay message
+  overlayMessage.textContent = "Game Over!";
+  overlayScore.textContent = `You survived ${score} seconds`;
+  overlayBtn.textContent = "🔄 Restart";
+
+  // Show overlay (now centered over canvas)
+  overlay.style.display = "flex";
 }

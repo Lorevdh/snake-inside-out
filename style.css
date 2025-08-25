@@ -1,8 +1,9 @@
 /* 
   Snake Inside-Out — Styling
-  Sets up dark theme and canvas visuals.
-  Feel free to remix colors, fonts, or layout.
+  Dark retro terminal look + rainbow "snake" borders.
+  Everything is open for remixing!
 */
+
 body {
   font-family: 'Courier New', monospace;
   background-color: #111;
@@ -12,7 +13,121 @@ body {
   padding: 20px;
 }
 
-canvas {
+h1 {
+  margin-bottom: 10px;
+}
+
+/* Wrapper keeps rainbow border tight around the canvas */
+.canvasWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Game canvas itself */
+#gameCanvas {
   background-color: #222;
-  border: 2px solid #fff;
+  display: block;
+}
+
+/* Overlay covers the canvas when the game ends */
+#overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+#overlayContent {
+  text-align: center;
+}
+
+/* Overlay title */
+#overlayMessage {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Overlay score text */
+#overlayScore {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+/* === Rainbow "snake" border around the canvas === */
+.canvasWrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+
+  /* Rainbow gradient that scrolls infinitely */
+  background: repeating-linear-gradient(
+    90deg,
+    red 0%, orange 16%, yellow 33%, green 50%, cyan 66%, blue 83%, violet 100%
+  );
+  background-size: 400% 100%;
+  animation: moveRainbow 4s linear infinite;
+
+  /* Mask out the center so only the border shows */
+  -webkit-mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  border: 6px solid transparent; /* defines thickness */
+  z-index: 0;
+}
+
+/* === Button with matching rainbow snake border === */
+#overlayBtn {
+  position: relative;
+  padding: 10px 22px;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  background: #0b0b0b;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+  z-index: 0;
+}
+
+#overlayBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+
+  /* Rainbow gradient scroll */
+  background: repeating-linear-gradient(
+    90deg,
+    red 0%, orange 16%, yellow 33%, green 50%, cyan 66%, blue 83%, violet 100%
+  );
+  background-size: 400% 100%;
+  animation: moveRainbow 3s linear infinite;
+
+  /* Mask to show only the border around the button */
+  -webkit-mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  border: 3px solid transparent;
+  z-index: -1;
+}
+
+#overlayBtn:hover {
+  transform: scale(1.06);
+}
+
+/* === Shared rainbow animation === */
+@keyframes moveRainbow {
+  from { background-position: 0% 0; }
+  to   { background-position: 100% 0; }
 }
